@@ -21,37 +21,38 @@ class Tree {
         return node
     }
 
-    // insert(value, tmp, node = this.root) {
-    //     if (node !== null) {
-    //         if (value < node.data) {
-    //             tmp = node
-    //             currentNode = node.left
-    //             this.insert(value, tmp, currentNode)
-    //         }
-    //         else {
-    //             tmp = node
-    //             currentNode = node.right
-    //             this.insert(value, tmp, currentNode)
-    //         }
-    //     } else {
-    //         if (value < tmp.data) {
-    //             tmp.left = new Node(value)
-    //         } 
-    //         else {
-    //             tmp.right = new Node(value)
-    //         }
-    //     }
-    // }
-    insert(value, currentNode = this.root) {
-        if (currentNode === null) return new Node(value);
-        // traverse
-        if (value > currentNode.data) {
-            currentNode.right = this.insert(value, currentNode.right)
-        } else {
-            currentNode.left = this.insert(value, currentNode.left)
+    insert(value, tmp, node = this.root) {
+        if (node === null) {
+            if (value < tmp.data) {
+                tmp.left = new Node(value)
+            } 
+            else {
+                tmp.right = new Node(value)
+            }
+            return;
+            } else {
+            if (value < node.data) {
+                tmp = node
+                let currentNode = node.left
+                this.insert(value, tmp, currentNode)
+            }
+            else {
+                tmp = node
+                let currentNode = node.right
+                this.insert(value, tmp, currentNode)
+             }
+            }
         }
-        return currentNode
-    }
+    // insert(value, currentNode = this.root) {
+    //     if (currentNode === null) return new Node(value);
+    //     // traverse
+    //     if (value > currentNode.data) {
+    //         currentNode.right = this.insert(value, currentNode.right)
+    //     } else {
+    //         currentNode.left = this.insert(value, currentNode.left)
+    //     }
+    //     return currentNode
+    // }
 
     delete(value, currentNode = this.root) {
         // no node then return null
@@ -197,7 +198,6 @@ class Tree {
         this.root = this.buildTree(sorted,0,sorted.length-1)
     }
 }
-
 const prettyPrint = (node, prefix = '', isLeft = true) => {
     if (node.right !== null) {
       prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
@@ -207,7 +207,7 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
       prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
   }
-
+// driver
 let tree = new Tree([1,52,56,100,121,202])
 prettyPrint(tree.root)
 
